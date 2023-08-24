@@ -11,13 +11,17 @@ const dotenv = require("dotenv").config;
 app.use("/public", express.static(__dirname + "/public"));
 
 app.get("/json", (req, res) => {
-    var res = "Hello World".toUpperCase();
-    if (process.env.MESSAGE_STYLE === "uppercase"){
-        res = "Hello json.toUpperCase()"
-    } else {
-        res = "Hello json";
+    const messageStyle = process.env.MESSAGE_STYLE;
+
+    let responseMessage = "Hello json";
+
+    if(messageStyle && messageStyle.toLowerCase() === "uppercase") {
+        responseMessage = responseMessage.toUpperCase();
+
+        const responseObject = {message: responseMessage};
+
+        res.json(responseObject);
     }
-    res.json({"message": res});
 });
 
 
